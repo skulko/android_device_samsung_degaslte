@@ -17,14 +17,7 @@
 # inherit from common smdk3470
 -include device/samsung/smdk3470-common/BoardConfigCommon.mk
 
-# Enable dex-preoptimization to speed up first boot sequence
-ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),userdebug)
-   ifeq ($(WITH_DEXPREOPT),)
-    WITH_DEXPREOPT := true
-   endif
-  endif
-endif
+DEVICE_PATH := device/samsung/degaslte
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := degasltexx,degasltezt,degaslte
@@ -48,27 +41,31 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2147483648
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2147483648
 
 # Include path
-TARGET_SPECIFIC_HEADER_PATH += device/samsung/degaslte/include
+TARGET_SPECIFIC_HEADER_PATH += $(DEVICE_PATH)/include
 
 # Kernel
-TARGET_KERNEL_CONFIG := cm_degaslte_00_defconfig
+TARGET_KERNEL_CONFIG := degaslte_00_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/degaslte
 
 # GUI (Avoid Crash after entering sleep)
 BOARD_EGL_NEEDS_HANDLE_VALUE := true
 
 # CMHW
-BOARD_HARDWARE_CLASS := device/samsung/degaslte/cmhw
+BOARD_HARDWARE_CLASS := device/samsung/degaslte/lineagehw
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/degaslte/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # NFC
-# Chipset: no NFC
+# Chipset: Samsung s3fwrn5
+# Note: as libnfc-nci only supports pn547 and bcm2079x, select pn547 here but use the stock s3fwrn5 hal
+BOARD_NFC_CHIPSET := pn547
+BOARD_NFC_HAL_SUFFIX := universal3470
 
 # Recovery
-TARGET_RECOVERY_DEVICE_DIRS += device/samsung/degaslte
-TARGET_RECOVERY_FSTAB := device/samsung/degaslte/rootdir/etc/fstab.universal3470
+TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.universal3470
+BOARD_HAS_LARGE_FILESYSTEM := true
 
 # PowerHAL
 TARGET_POWERHAL_VARIANT := exynos3
@@ -79,7 +76,7 @@ TARGET_PROVIDES_LIBLIGHT := true
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
 TARGET_INIT_VENDOR_LIB := libinit_degaslte
-TARGET_LIBINIT_DEFINES_FILE := device/samsung/degaslte/init/init_degaslte.cpp
+TARGET_LIBINIT_DEFINES_FILE := $(DEVICE_PATH)/init/init_degaslte.cpp
 
 # Don't take forever to wipe
 BOARD_SUPPRESS_SECURE_ERASE := true
@@ -91,3 +88,9 @@ RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
 TW_NO_REBOOT_BOOTLOADER := true
 TW_HAS_DOWNLOAD_MODE := true
+TWRP_INCLUDE_LOGCAT := true
+TW_NO_LEGACY_PROPS := true
+
+# SELinux
+BOARD_SEPOLICY_DIRS := \
+	$(DEVICE_PATH)/sepolicy
