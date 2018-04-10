@@ -1,37 +1,31 @@
 # General
-##csc/sales_code.dat
 lib/libcsc.so
 # Needed by libcsc.so
 lib/libion_exynos.so
 lib/libexynosutils.so
 lib/libexynosfimc.so
+lib/libexynosscaler.so
 # Needed by libexynosfimc.so
 lib/libexynosv4l2.so
-#lib/libMcClient.so
+
+# STL
+lib/libstlport.so
 
 # Bluetooth
-vendor/firmware/bcm4334.hcd
-vendor/firmware/BT_FW_VER_BCM4334B0_002.001.013.1806.2003_Degas_LTE_ORC.hcd
+vendor/firmware/bcm4334_V1837.2645.hcd
+vendor/firmware/bcm4339_V1831.2468.hcd
 
 # Camera
-lib/hw/camera.universal3470.so
 # Needed by "camera.universal3470.so"
 lib/libhwjpeg.so
-##lib/libexynoscamera.so
-# Needed by libexynoscamera.so
-##lib/libliveframework.so
-# Needed by "libliveframework.so"
-##lib/libarcsoft_nighthawk.so
+lib/libexynoscamera.so
 
 # DRM
 etc/srm.bin
 lib/libdrmdecrypt.so
 lib/libhdcp2.so
 lib/libstagefright_hdcp.so
-vendor/lib/libwvm.so
-vendor/lib/libwvdrm_L1.so
 # Needed by libwvm.so
-vendor/lib/libWVStreamControlAPI_L1.so
 vendor/lib/mediadrm/libwvdrmengine.so
 vendor/lib/liboemcrypto.so
 
@@ -58,8 +52,11 @@ lib/libMali.so
 lib/libExynosIPService.so
 #lib/libcsc.so
 
+# Blur
+vendor/lib/libuiblur.so
+
 # HWC
-vendor/lib/hw/hwcomposer.exynos3.so
+lib/hw/hwcomposer.exynos3.so
 lib/hw/gralloc.exynos3.so
 # Needed by hwcomposer.exynos3.so
 lib/libdisplay.so
@@ -78,41 +75,42 @@ lib/libhwcutilsmodule.so
 lib/libvirtualdisplay.so
 
 # Keystore
-vendor/lib/hw/keystore.exynos3.so
+lib/hw/keystore.exynos3470.so
 
 # LPM
 bin/lpm
 # Needed by lpm
-lib/libQmageDecoder.so
 lib/libmaet.so
 lib/libsxqk_skia.so
-media/battery_batteryerror.qmg
-media/battery_charging_100.qmg
-media/battery_charging_10.qmg
-media/battery_charging_15.qmg
-media/battery_charging_20.qmg
-media/battery_charging_25.qmg
-media/battery_charging_30.qmg
-media/battery_charging_35.qmg
-media/battery_charging_40.qmg
-media/battery_charging_45.qmg
-media/battery_charging_50.qmg
-media/battery_charging_55.qmg
-media/battery_charging_5.qmg
-media/battery_charging_60.qmg
-media/battery_charging_65.qmg
-media/battery_charging_70.qmg
-media/battery_charging_75.qmg
-media/battery_charging_80.qmg
-media/battery_charging_85.qmg
-media/battery_charging_90.qmg
-media/battery_charging_95.qmg
-media/battery_error.qmg
-media/bootsamsungloop.qmg
-media/bootsamsung.qmg
-media/chargingwarning.qmg
-media/Disconnected.qmg
-media/shutdown.qmg
+media/lcd_density.txt
+media/afc_logo.spi
+media/affordance_glow_afc.spi
+media/affordance_glow.spi
+media/battery_cover.spi
+media/battery_error.spi
+media/battery_low.spi
+media/battery_temperature_error.spi
+media/battery_temperature_limit.spi
+media/dock_error.spi
+media/incompatible_charger.spi
+media/percentage.spi
+media/wireless_A1_afc.spi
+media/wireless_A1.spi
+media/wireless_A2_afc.spi
+media/wireless_A2.spi
+media/wireless_B1_afc.spi
+media/wireless_B1.spi
+media/wireless_B2_afc.spi
+media/wireless_B2.spi
+media/wireless_C1_afc.spi
+media/wireless_C1.spi
+media/wireless_C2_afc.spi
+media/wireless_C2.spi
+media/wireless_C3_afc.spi
+media/wireless_C3.spi
+media/wireless_C4_afc.spi
+media/wireless_C4.spi
+
 
 # Media
 vendor/firmware/fimc_is_fw2.bin
@@ -121,8 +119,10 @@ vendor/firmware/setfile_4h5.bin
 vendor/firmware/setfile_6a3.bin
 vendor/firmware/setfile_6b2.bin
 
-# Boot script (handles deferred kernels init-calls, e.g. for Wifi driver startup)
-#etc/init.sec.boot.sh
+# NFC
+lib/hw/nfc_nci.universal3470.so
+etc/sec_s3fwrn5_rfreg.bin
+vendor/firmware/sec_s3fwrn5_firmware.bin
 
 # MobiCore
 bin/mcDriverDaemon
@@ -132,6 +132,7 @@ app/mcRegistry/02010000080300030000000000000000.tlbin
 app/mcRegistry/03010000080300030000000000000000.tlbin
 app/mcRegistry/07010000000000000000000000000000.tlbin
 app/mcRegistry/07060000000000000000000000000000.tlbin
+app/mcRegistry/08130000000000000000000000000000.tlbin
 app/mcRegistry/ffffffff000000000000000000000004.tlbin
 app/mcRegistry/ffffffff000000000000000000000005.tlbin
 app/mcRegistry/ffffffff000000000000000000000009.tlbin
@@ -144,33 +145,30 @@ app/mcRegistry/ffffffff000000000000000000000012.tlbin
 app/mcRegistry/ffffffff000000000000000000000013.tlbin
 app/mcRegistry/ffffffff000000000000000000000017.tlbin
 app/mcRegistry/ffffffff000000000000000000000018.tlbin
+app/mcRegistry/ffffffff000000000000000000000041.tlbin
 app/mcRegistry/ffffffffd00000000000000000000004.tlbin
 app/mcRegistry/ffffffffd0000000000000000000000a.tlbin
 app/mcRegistry/ffffffffd0000000000000000000000e.tlbin
-lib/libgdmcprov.so
+app/mcRegistry/fffffffff0000000000000000000001e.tlbin
 lib/libMcClient.so
 lib/libMcRegistry.so
 
 # OMX
-etc/ExynosOMXReg.conf
-lib/libExynosOMX263d.so
-lib/libExynosOMX264d.so
-lib/libExynosOMXCmn.so
 lib/libExynosOMX_Core.so
-lib/libExynosOMXCore.so
-lib/libExynosOMXMp4vd.so
 lib/libExynosOMX_Resourcemanager.so
-lib/libExynosOMXVc1d.so
 lib/libstagefrighthw.so
 lib/omx/libOMX.Exynos.AVC.Decoder.so
 lib/omx/libOMX.Exynos.AVC.Encoder.so
+lib/omx/libOMX.Exynos.MP3.Decoder.so
 lib/omx/libOMX.Exynos.MPEG4.Decoder.so
 lib/omx/libOMX.Exynos.MPEG4.Encoder.so
+lib/omx/libOMX.Exynos.WMV.Decoder.so
 
 # Radio
 bin/at_distributor
-##etc/plmn_delta.bin
+lib/libgdmcprov.so
 etc/plmn_se13.bin
+etc/plmn_delta.bin
 lib/libatparser.so
 lib/libfactoryutil.so
 lib/libomission_avoidance.so
@@ -179,13 +177,12 @@ lib/libsec-ril.so
 lib/libsecnativefeature.so
 
 # Sensors
-lib/hw/sensors.universal3470.so
-##lib/libinvensense_hal.so
-# Needed by "libinvensense_hal.so"
-##lib/libmllite.so
-##lib/libmplmpu.so
-# GeomagneticSensor:
-##lib/libacdapi_clb.so
+# Geomagnetic sensor
+lib/libacdapi_clb.so
+etc/alp_cal.dat
+etc/param.dat
+# Heart-Rate sensor
+lib/libHrmEol.so
 
 # Wifi
 bin/macloader
@@ -196,15 +193,14 @@ etc/wifi/nvram_net.txt
 
 # Audio
 lib/libaudio-ril.so
+lib/libsecaudioinfo.so
 lib/libsamsungRecord.so
 lib/libsamsungRecord_ns.so
-lib/libsamsungRecord_zoom.so
 lib/libsamsungSoundbooster.so
 lib/lib_DNSe_NRSS_ver226.so
-lib/lib_SamsungRec_V03011b.so
-lib/lib_Samsung_AudioZoom_v100.so
+lib/lib_SamsungRec_V04004.so
 lib/lib_Samsung_Resampler.so
 lib/lib_Samsung_SB_AM_for_ICS_v04004.so
 
-lib/libExynosVideoApi.so
+# lib/libExynosVideoApi.so
 
