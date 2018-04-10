@@ -27,16 +27,37 @@
    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
+#include <sys/_system_properties.h>
+
+#include <android-base/properties.h>
 
 #include "vendor_init.h"
 #include "property_service.h"
-#include "log.h"
-#include "util.h"
+
+/* #include "log.h"
+#include "util.h" */
+#define LOG_TAG "init_properties"
+#include <cutils/log.h>
+
+void property_override(char const prop[], char const value[])
+{
+    prop_info *pi;
+
+    pi = (prop_info*) __system_property_find(prop);
+    if (pi)
+        __system_property_update(pi, value, strlen(value));
+    else
+        __system_property_add(prop, strlen(prop), value, strlen(value));
+}
 
 void vendor_load_properties()
 {
-    char platform[PROP_VALUE_MAX];
+   /* char platform[PROP_VALUE_MAX];
     char bootloader[PROP_VALUE_MAX];
     char device[PROP_VALUE_MAX];
     char devicename[PROP_VALUE_MAX];
@@ -46,22 +67,30 @@ void vendor_load_properties()
     if (!rc || strncmp(platform, ANDROID_TARGET, PROP_VALUE_MAX))
         return;
 
-    property_get("ro.bootloader", bootloader);
+    property_get("ro.bootloader", bootloader); */
+	
+    std::string platform = android::base::GetProperty("ro.board.platform", "");
+    std::string bootloader = android::base::GetProperty("ro.bootloader", "");
 
-    if (strstr(bootloader, "T235Y")) {
+    if (platform != ANDROID_TARGET) {
+        return;
+    }
+
+
+    if (bootloader.find("T235Y") != std::string::npos) {
         /* degasltezt */
-	property_set("ro.build.fingerprint", "samsung/degasltezt/degaslte:4.4.2/KOT49H/T235YZTU1AOD1:user/release-keys");
-	property_set("ro.build.description", "degasltezt-user 4.4.2 KOT49H T235YZTU1AOD1 release-keys");
-        property_set("ro.product.model", "SM-T235Y");
-        property_set("ro.product.device", "degasltezt");
-    } else if (strstr(bootloader, "T235")) {
+	property_override("ro.build.fingerprint", "samsung/degasltezt/degaslte:4.4.2/KOT49H/T235YZTU1AOD1:user/release-keys");
+	property_override("ro.build.description", "degasltezt-user 4.4.2 KOT49H T235YZTU1AOD1 release-keys");
+        property_override("ro.product.model", "SM-T235Y");
+        property_override("ro.product.device", "degasltezt");
+    } else if (bootloader.find("T235") != std::string::npos) {
         /* degasltexx */
-        property_set("ro.build.fingerprint", "samsung/degasltexx/degaslte:4.4.2/KOT49H/T235XXU1AOD1:user/release-keys");
-        property_set("ro.build.description", "degasltexx-user 4.4.2 KOT49H T235XXU1AOD1 release-keys");
-        property_set("ro.product.model", "SM-T235");
-        property_set("ro.product.device", "degasltexx");
+        property_override("ro.build.fingerprint", "samsung/degasltexx/degaslte:4.4.2/KOT49H/T235XXU1AOD1:user/release-keys");
+        property_override("ro.build.description", "degasltexx-user 4.4.2 KOT49H T235XXU1AOD1 release-keys");
+        property_override("ro.product.model", "SM-T235");
+        property_override("ro.product.device", "degasltexx");
      }
     
-    property_get("ro.product.device", device);
-    ERROR("Found bootloader id %s setting build properties for %s device\n", bootloader, device);
+    std::string device = android::base::GetProperty("ro.product.device", "");
+    ALOGI("Found bootloader id %s setting build properties for %s device\n", bootloader.c_str(), device.c_str());
 }
